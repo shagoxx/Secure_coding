@@ -1,19 +1,30 @@
 <html>
 <head>
-
+    
+    <script src="https://www.google.com/recaptcha/api.js?render=6LfUfsEUAAAAAOtbI_AKriS6mmjDrboWaaRlZYjM"></script>
+<script>
+grecaptcha.ready(function() {
+    grecaptcha.execute('6LfUfsEUAAAAAOtbI_AKriS6mmjDrboWaaRlZYjM', {action: 'validate_captcha'}).then(function(token) {
+       document.getElementById('g-recaptcha-response').value = token;
+    });
+});
+</script>
+  
 
 </head>
 <body>
 
-<form method="POST" action="PHP/login.php">
+<form method="POST" id='demo-form' action="PHP/login.php">
+  <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response">
+  <input type="hidden" id="validate_captcha" name="value">
 user:
 <input type="text" name="username">
 password:
 <input type="password" name="password">
-<input type="submit" value="enviar">
 
-</form>
+<input type="submit">
 
 
 </body>
 </html>
+
