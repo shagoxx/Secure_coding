@@ -1,3 +1,4 @@
+  
 <?php
 session_start();
     if(isset($_SESSION["inicio"])){
@@ -6,5 +7,4 @@ session_start();
     else {
         header('Location: ../index.html');
     }
-
 ?>
