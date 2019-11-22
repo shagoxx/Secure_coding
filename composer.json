@@ -1,0 +1,7 @@
+{
+    "require": {
+        "pragmarx/google2fa": "^7.0",
+        "pragmarx/google2fa-qrcode": "^1.0",
+        "google/apiclient": "^2.0"
+    }
+}
