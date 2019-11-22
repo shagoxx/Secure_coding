@@ -1,6 +1,11 @@
 <?php
+/*Para el captcha*/
+require_once '../vendor/autoload.php';
+$google2fa = new PragmaRX\Google2FA\Google2FA();
 
-$token = $_POST['g-recaptcha-response']; //cogemos el token
+/*--------------------------------------*/
+
+$token = $_POST['g-recaptcha-response']; //cogemos el token desde index html.
 
 $secret = '6LfUfsEUAAAAALZX0saoSNykAjU1dvqlW30c8_Yh';
 $peticionJson = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secret.'&response='.$token);
@@ -33,7 +38,7 @@ if($row = $result->fetch_assoc()) {
             echo '¡La contraseña es válida!';
             session_start();
             $_SESSION["inicio"]=$username;
-            header('Location: session.php');
+           
         }
         else {
                     echo "contraseña INVALIDA";
@@ -42,4 +47,6 @@ if($row = $result->fetch_assoc()) {
 }
 else{ echo "la cuenta es invalida";}
 }
+// VERIFICACION 2FA
+
 ?>
