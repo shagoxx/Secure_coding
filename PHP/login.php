@@ -1,9 +1,10 @@
 <?php
-/*Para el captcha*/
+/*Para el 2FA*/
 require_once '../vendor/autoload.php';
 $google2fa = new PragmaRX\Google2FA\Google2FA();
 
 /*--------------------------------------*/
+
 
 $token = $_POST['g-recaptcha-response']; //cogemos el token desde index html.
 
@@ -14,27 +15,34 @@ $respuestaGoogle = json_decode($peticionJson); //convierte la peticion en un jso
 
 if ($respuestaGoogle->score > 0.7 ){ //comprueba el score y si es un robot o no y hace el login
 
+/*-----------------------------TERMINA LA COMPROBACIÓN CAPTCHA------------------------------------------*/
+
+
+
+
+
 
 $password = $_POST["password"];
 $username = $_POST["username"];
 
 
 
-$dbhost = "localhost";
-$dbuser = "kevin";
-$dbpass = "Admin123*";
-$db = "login";
-$conn = new mysqli($dbhost, $dbuser, $dbpass,$db);
+require 'sql.php';
 
-$sql = "SELECT user,pass FROM users WHERE user = '$username'";
+$sql = "SELECT user,pass,secret FROM users WHERE user = '$username'";
 
 $result = $conn->query($sql);
 
 if($row = $result->fetch_assoc()) {
 
     if ($username == $row["user"]) {
-     echo "Cuenta OK";
-        if (password_verify($password, $row["pass"])) {
+        echo "Cuenta OK";
+        /*COMPROBAR EL SECRET CON EL CODIGO*/
+
+        $valid = $google2fa->verifyKey($row["user"],$password);
+        /*--------------------------------------*/
+        
+        if (password_verify($password, $row["pass"])&&($valid)) {
             echo '¡La contraseña es válida!';
             session_start();
             $_SESSION["inicio"]=$username;
